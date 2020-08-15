@@ -34,15 +34,17 @@ def sync_info():
     
     # print(len(previous_followers))
     # print(len(current_followers))
-    new_followers = list(set(current_followers) - set(previous_followers))
+    new_followers = list(set(current_followers) - set(previous_followers)) # https://stackoverflow.com/questions/3462143/get-difference-between-two-lists
     lost_followers = list(set(previous_followers) - set(current_followers))
     with open('new_followers.txt', 'w') as f:
         for follower in new_followers:
-            f.write(follower+'\n')
+            handle = getHandle(follower)
+            f.write(handle+'\n')
 
     with open('lost_followers.txt', 'w') as f:
         for follower in lost_followers:
-            f.write(follower+'\n')
+            handle = getHandle(follower)
+            f.write(handle+'\n')
 
     # print(f'{len(new_followers)} New Followers:\n{new_followers}')
     # print(f'{len(lost_followers)} Lost Followers:\n{lost_followers}')

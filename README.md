@@ -1,5 +1,7 @@
 # COMMS FALCON
 
+## TWITTER 
+
 ### REQUIREMENTS
  - API Keys from developer.twitter.com
   -
@@ -22,5 +24,10 @@
  - https://github.com/rhiever/TwitterFollowBot
  - https://github.com/yousefissa/   
  - Twitter-Follow-and-Unfollow-Bot
- - 
+ - https://github.com/karpathy/find-birds
+
+ ## FACEBOOK
+
+
+ ## IG
 

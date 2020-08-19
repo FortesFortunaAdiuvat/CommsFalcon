@@ -2,15 +2,18 @@ import requests
 import argparse
 
 from TwitterFollowBot.TwitterFollowBot import TwitterBot
+ 
 
 my_bot = TwitterBot('config_weshawes9000.txt')
+#my_bot = TwitterBot('config_weshawes9000.txt')
 
 def getHandle(tweeter_id):
     headers = {
         'origin':'https://tweeterid.com'
     }
     res = requests.post('https://tweeterid.com/ajax.php', data={'input':f'{tweeter_id}'}, headers=headers)
-    print(res.content.decode('utf-8'))
+    # print(res.content)
+    # print(res.status_code)
     return res.content.decode('utf-8')
 
 def follow_followers():
@@ -38,6 +41,7 @@ def sync_info():
     lost_followers = list(set(previous_followers) - set(current_followers))
     with open('new_followers.txt', 'w') as f:
         for follower in new_followers:
+            # print(follower)
             handle = getHandle(follower)
             f.write(handle+'\n')
 
@@ -99,12 +103,12 @@ def followPrompts():
 my_parser = argparse.ArgumentParser(description='Display options for CommsFalcon Twitter CLI')
 
 # CLI arguments
-user_list = []; tweeter_id_list = [] 
+user = ''; tweeter_id = '' 
 my_parser.add_argument('-s','--syncInfo', action='store_true',help='Needed to save on API rate limits and faster analysis. Creates local cache of your followers, your following.')
 my_parser.add_argument('-f','--followFollowers', action='store_true', help='Follow Back Your Followers.')
-my_parser.add_argument('-u','--followUsersFollowers', action='store',type=str,metavar=user_list, nargs='+',help='Follow The Followers of a specified user. Do not include @ symbol. Multiple users can be given spearated by a space.')
+my_parser.add_argument('-u','--followUsersFollowers', action='store',type=str,metavar=user, nargs='+',help='Follow The Followers of a specified user. Do not include @ symbol. Multiple users can be given spearated by a space.')
 my_parser.add_argument('-r','--unfollowNonFollowers', action='store_true', help='Remove/Unfollow Users You Follow Who Do Not Follow You Back.')
-my_parser.add_argument('-c','--convertTweeterID', action='store', type=int, metavar=tweeter_id_list, nargs='+', help='Given unique TweeterID, returns users Handle')
+#my_parser.add_argument('-c','--convertTweeterID', action='store', type=str, metavar=tweeter_id, nargs='+', help='Given unique TweeterID, returns users Handle')
 my_parser.add_argument('-m','--messageDirect', action='store_true', help='Send direct message to user')
 
 # parse CLI arguments at run time
@@ -122,8 +126,8 @@ if args.followFollowers:
 
 if args.followUsersFollowers:
     print('Following User(s) Followers....')
-    for user in user_list:
-        follow_users_followers(user)
+    # follow_users_followers(user)
+    my_bot.auto_follow_followers_of_user(user)
     print('Done.')
 
 if args.unfollowNonFollowers:
@@ -131,9 +135,9 @@ if args.unfollowNonFollowers:
     unfollow_nonfollowers()
     print('Done.')
 
-if args.convertTweeterID:
-    print('Converting TweeterID(s)...')
-    for tweeter_id in tweeter_id_list:
-        getHandle(tweeter_id)
-    print('Done.')
+# if args.convertTweeterID:
+#     print('Converting TweeterID(s)...')
+#     handle = getHandle(tweeter_id)
+#     print(handle)
+#     print('Done.')
 

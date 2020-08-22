@@ -25,7 +25,6 @@ import time
 import random
 import requests
 
-
 class TwitterBot:
 
     """
@@ -493,3 +492,8 @@ class TwitterBot:
                 print("User %s added to the list %s" % (tweet["user"]["screen_name"], list_slug), file=sys.stdout)
             except TwitterHTTPError as api_error:
                 print(api_error)
+
+
+class tweepyBot():
+    def __init__(self):
+        test = ''

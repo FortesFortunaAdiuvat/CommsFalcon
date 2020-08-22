@@ -57,7 +57,7 @@ def sync_info():
     return
 
 def follow_users_followers(user_to_follow):
-    my_bot.auto_follow_followers_of_user(user_to_follow, count=1000)
+    my_bot.auto_follow_followers_of_user(user_to_follow, count=100)
     return
 
 
@@ -111,7 +111,7 @@ my_parser.add_argument('-r','--unfollowNonFollowers', action='store_true', help=
 #my_parser.add_argument('-c','--convertTweeterID', action='store', type=str, metavar=tweeter_id, nargs='+', help='Given unique TweeterID, returns users Handle')
 my_parser.add_argument('-m','--messageDirect', action='store_true', help='Send direct message to user')
 
-my_bot = TwitterBot('base_config.txt')
+my_bot = TwitterBot('config_weshawes9000.txt')
 
 # parse CLI arguments at run time
 args = my_parser.parse_args()
@@ -127,9 +127,9 @@ if args.followFollowers:
     print('Done.')
 
 if args.followUsersFollowers:
-    print('Following User(s) Followers....')
+    print(f'Following User(s) {args.followUsersFollowers} Followers....')
     # follow_users_followers(user)
-    print(f'user: {args.followUsersFollowers}')
+
     for user in args.followUsersFollowers:
         my_bot.auto_follow_followers_of_user(user, count=100)
     print('Done.')

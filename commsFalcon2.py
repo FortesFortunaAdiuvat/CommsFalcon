@@ -3,7 +3,7 @@ import argparse
 
 from TwitterFollowBot.TwitterFollowBot import TwitterBot
 
-my_bot = TwitterBot('base_config.txt')
+my_bot = TwitterBot('config_weshawes9000.txt')
 
 syncOption = input('Sync Account Info (y/n)? ')
 if syncOption == 'y':

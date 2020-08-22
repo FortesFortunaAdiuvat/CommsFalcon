@@ -23,6 +23,7 @@ import os
 import sys
 import time
 import random
+import requests
 
 
 class TwitterBot:
@@ -44,6 +45,15 @@ class TwitterBot:
         # Used for random timers
         random.seed()
 
+    def getHandle(self, tweeter_id):
+        headers = {
+            'origin':'https://tweeterid.com'
+        }
+        res = requests.post('https://tweeterid.com/ajax.php', data={'input':f'{tweeter_id}'}, headers=headers)
+        # print(res.content)
+        # print(res.status_code)
+        return res.content.decode('utf-8')
+
     def wait_on_action(self):
         min_time = 0
         max_time = 0
@@ -61,7 +71,7 @@ class TwitterBot:
         wait_time = random.randint(min_time, max_time)
 
         if wait_time > 0:
-            print("Choosing time between %d and %d - waiting %d seconds before action" % (min_time, max_time, wait_time))
+            #print("Choosing time between %d and %d - waiting %d seconds before action" % (min_time, max_time, wait_time))
             time.sleep(wait_time)
 
         return wait_time
@@ -352,21 +362,22 @@ class TwitterBot:
 
         following = self.get_follows_list()
         followers_of_user = set(self.TWITTER_CONNECTION.followers.ids(screen_name=user_twitter_handle)["ids"][:count])
-        print(followers_of_user)
+        # print(followers_of_user)
         do_not_follow = self.get_do_not_follow_list()
+        # print(following)
 
         for user_id in followers_of_user:
-            if user_id in following:
-                print(f'Already following{user_id}')
+            # if user_id in following:
+            #     print(f'Already following{user_id}')
             try:
-                print(user_id)
                 if (user_id not in following and
                         user_id not in do_not_follow):
-                    print('following user')
+                    #print('following user')
                     self.wait_on_action()
                     
                     self.TWITTER_CONNECTION.friendships.create(user_id=user_id, follow=False)
-                    print("Followed %s" % user_id, file=sys.stdout)
+                    print("Followed %s" % self.getHandle(user_id), file=sys.stdout)
+
 
             except TwitterHTTPError as api_error:
                 print('http error')
@@ -376,15 +387,13 @@ class TwitterBot:
                           "Wait a while before running the bot again or gain "
                           "more followers.", file=sys.stderr)
                     return
-                else:
-                    print('1')
+                
 
                 # don't print "already requested to follow" errors - they're
                 # frequent
                 if "already requested to follow" not in str(api_error).lower():
                     print("Error: %s" % (str(api_error)), file=sys.stderr)
-                else:
-                    print('2')
+                
 
 
     def auto_unfollow_nonfollowers(self,count=None):

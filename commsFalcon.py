@@ -110,6 +110,9 @@ my_parser.add_argument('-u','--followUsersFollowers', action='store',type=str,me
 my_parser.add_argument('-r','--unfollowNonFollowers', action='store_true', help='Remove/Unfollow Users You Follow Who Do Not Follow You Back.')
 #my_parser.add_argument('-c','--convertTweeterID', action='store', type=str, metavar=tweeter_id, nargs='+', help='Given unique TweeterID, returns users Handle')
 my_parser.add_argument('-m','--messageDirect', action='store_true', help='Send direct message to user')
+my_parser.add_argument('-l', '--likeTweets', action='store', type=str, help='Like tweets containing given phrase')
+my_parser.add_argument('--muteFollowing', action='store_true', help='Mute everyone that you are following')
+my_parser.add_argument('--unmuteMuted', action='store_true', help='Unmute everyone that is muted')
 
 my_bot = TwitterBot('config_weshawes9000.txt')
 
@@ -120,6 +123,14 @@ if args.syncInfo:
     print('syncinfo...')
     sync_info()
     print('Done.')
+
+if args.muteFollowing:
+    print('Muted all users that you are following...')
+    my_bot.auto_mute_following()
+
+if args.unmuteMuted:
+    print('Unmuting all users that are musted...')
+    my_bot.auto_unmute()
 
 if args.followFollowers:
     print('Following Back Your Followers...')
@@ -133,6 +144,10 @@ if args.followUsersFollowers:
     for user in args.followUsersFollowers:
         my_bot.auto_follow_followers_of_user(user, count=100)
     print('Done.')
+
+if args.likeTweets:
+    print(f'Liking tweets with phrase {args.likeTweets}')
+    my_bot.auto_fav(args.likeTweets)
 
 if args.unfollowNonFollowers:
     print('Unfollowing Users Who Dont Follow You...')

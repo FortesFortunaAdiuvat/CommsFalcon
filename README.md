@@ -6,6 +6,9 @@
  - API Keys from developer.twitter.com
   -
 
+### Supplemental
+ - Convert Tweeter IDs: https://tweeterid.com/
+
 ### RULES
  - Do not use Twitter Actual while Bot is in action, or your account will be locked and requests from the bot will 403 fail
 
@@ -31,3 +34,12 @@
 
  ## IG
 
+
+## REDDIT
+
+
+### Sports APIs
+
+#### Best APIs
+  - https://rapidapi.com/blog/best-sports-apis-ranked/
+  - https://pypi.org/project/sportsreference/
